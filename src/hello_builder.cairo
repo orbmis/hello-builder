@@ -1,12 +1,19 @@
-use debug::PrintTrait;
+use pedersen::PedersenTrait;
+use poseidon::PoseidonTrait;
+use hash::{HashStateTrait, HashStateExTrait};
 
-fn foo(x: u8, y: u8) {}
-
-fn main() {
-    let first_arg = 3;
-    let second_arg = 4;
-    foo(x: first_arg, y: second_arg);
-    let x = 1;
-    let y = 2;
-    foo(:x, :y)
+#[derive(Drop, Hash)]
+struct StructForHash {
+    first: felt252,
+    second: felt252,
+    third: (u32, u32),
+    last: bool,
 }
+
+fn main() -> felt252 {
+    let struct_to_hash = StructForHash { first: 0, second: 1, third: (1, 2), last: false };
+
+    let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
+    hash
+}
+
