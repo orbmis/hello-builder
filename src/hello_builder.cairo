@@ -1,10 +1,12 @@
 use debug::PrintTrait;
 
-fn main() {
-    another_function(5, 6);
-}
+fn foo(x: u8, y: u8) {}
 
-fn another_function(x: felt252, y: felt252) {
-    x.print();
-    y.print();
+fn main() {
+    let first_arg = 3;
+    let second_arg = 4;
+    foo(x: first_arg, y: second_arg);
+    let x = 1;
+    let y = 2;
+    foo(:x, :y)
 }
