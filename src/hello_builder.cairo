@@ -1,19 +1,27 @@
-use pedersen::PedersenTrait;
-use poseidon::PoseidonTrait;
-use hash::{HashStateTrait, HashStateExTrait};
-
-#[derive(Drop, Hash)]
-struct StructForHash {
-    first: felt252,
-    second: felt252,
-    third: (u32, u32),
-    last: bool,
+#[starknet::interface]
+trait ISimpleStorage<TContractState> {
+    fn set(ref self: TContractState, x: u128);
+    fn get(self: @TContractState) -> u128;
 }
 
-fn main() -> felt252 {
-    let struct_to_hash = StructForHash { first: 0, second: 1, third: (1, 2), last: false };
+#[starknet::contract]
+mod SimpleStorage {
+    use starknet::get_caller_address;
+    use starknet::ContractAddress;
 
-    let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
-    hash
+    #[storage]
+    struct Storage {
+        stored_data: u128
+    }
+
+    #[external(v0)]
+    impl SimpleStorage of super::ISimpleStorage<ContractState> {
+        fn set(ref self: ContractState, x: u128) {
+            self.stored_data.write(x);
+        }
+        fn get(self: @ContractState) -> u128 {
+            self.stored_data.read()
+        }
+    }
 }
 
