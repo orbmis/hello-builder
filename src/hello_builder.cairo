@@ -1,4 +1,10 @@
 use debug::PrintTrait;
+
 fn main() {
-    'Hello, Builder!'.print();
+    another_function(5, 6);
+}
+
+fn another_function(x: felt252, y: felt252) {
+    x.print();
+    y.print();
 }
