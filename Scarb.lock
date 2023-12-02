@@ -2,5 +2,5 @@
 version = 1
 
 [[package]]
-name = "hello_world"
+name = "hello_builder"
 version = "0.1.0"
